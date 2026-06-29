@@ -3,50 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فروشگاه گیاهی عطار</title>
+    <title>فروشگاه ارگانیک لوفی</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <style>
-        body { font-family: 'Vazirmatn', sans-serif; background-color: #fcfbf7; }
+        body { font-family: 'Vazirmatn', sans-serif; background-color: #fbfbfa; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 100; }
     </style>
 </head>
-<body class="text-stone-800">
+<body class="text-stone-800 antialiased">
 
-    <header class="border-b border-stone-200 bg-white/80 backdrop-blur sticky top-0 z-50">
-        <div class="max-width-6xl mx-auto px-4 py-4 flex justify-between items-center max-w-6xl">
-            <h1 class="text-2xl font-bold text-emerald-800 tracking-tight">عطّار هربال</h1>
-            <nav class="space-x-reverse space-x-6 text-sm font-medium text-stone-600">
+    <header class="border-b border-stone-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-emerald-800 tracking-tight flex items-center gap-2">
+                <span>🌿</span> فروشگاه گیاهی عطار
+            </h1>
+            <nav class="hidden md:flex space-x-reverse space-x-6 text-sm font-medium text-stone-600">
                 <a href="#" class="hover:text-emerald-700 transition">صفحه اصلی</a>
-                <a href="#" class="hover:text-emerald-700 transition">محصولات گیاهی</a>
-                <a href="#" class="hover:text-emerald-700 transition">درباره ما</a>
+                <a href="#products-section" class="hover:text-emerald-700 transition">محصولات ارگانیک</a>
+                <button onclick="openModal('admin-modal')" class="text-stone-500 hover:text-emerald-700 transition">پنل مدیریت (افزودن کالا)</button>
             </nav>
+            <div class="flex items-center gap-4">
+                <button onclick="openModal('cart-modal')" class="relative bg-emerald-50 hover:bg-emerald-100 text-emerald-800 p-2.5 rounded-xl transition">
+                    🛒 <span class="font-bold mr-1 text-sm">سبد خرید</span>
+                    <span id="cart-count" class="absolute -top-2 -left-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                </button>
+            </div>
         </div>
     </header>
 
-    <section class="max-w-6xl mx-auto px-4 py-12 text-center">
-        <span class="text-xs font-bold tracking-widest text-emerald-700 uppercase bg-emerald-50 px-3 py-1 rounded-full">۱۰۰٪ طبیعی و ارگانیک</span>
-        <h2 class="text-4xl font-extrabold text-stone-900 mt-4 mb-6 max-w-2xl mx-auto leading-tight">سلامتی و شادابی با اصیل‌ترین فرآورده‌های گیاهی</h2>
-        <p class="text-stone-600 max-w-lg mx-auto text-sm leading-relaxed">انتخاب شده از بهترین مزارع ارگانیک، بدون اسانس و فرآوری‌های شیمیایی برای بازگرداندن انرژی طبیعت به زندگی شما.</p>
+    <section class="max-w-6xl mx-auto px-4 py-16 text-center">
+        <span class="text-xs font-bold tracking-widest text-emerald-700 uppercase bg-emerald-50 px-3 py-1.5 rounded-full">برداشت مستقیم از مزارع ارگانیک ایران</span>
+        <h2 class="text-4xl md:text-5xl font-extrabold text-stone-900 mt-5 mb-6 max-w-3xl mx-auto leading-tight md:leading-snug">سلامتی و شادابی با فرآورده‌های اصیل و سنتی گیاهی</h2>
+        <p class="text-stone-600 max-w-xl mx-auto text-base leading-relaxed">بدون هیچ‌گونه اسانس، فرآوری شیمیایی یا مواد نگهدارنده. بازگشت به آغوش طبیعت برای انرژی پایدار زندگی شما.</p>
     </section>
 
-    <main class="max-w-6xl mx-auto px-4 pb-24">
+    <main id="products-section" class="max-w-6xl mx-auto px-4 pb-24">
+        <h3 class="text-xl font-bold text-stone-950 mb-8 border-r-4 border-emerald-700 pr-3">تازه‌ترین محصولات رسیده</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for product in products %}
-            <div class="bg-white border border-stone-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 flex flex-col">
+            <div class="bg-white border border-stone-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 flex flex-col justify-between">
                 <div class="h-64 overflow-hidden bg-stone-100 relative">
-                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-lg border border-stone-200/50">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="w-full h-full object-cover">
+                    <span class="absolute top-3 right-3 bg-white/95 backdrop-blur text-emerald-800 text-xs font-bold px-3 py-1 rounded-lg border border-stone-200/50 shadow-sm">
                         {{ product.benefit }}
                     </span>
                 </div>
                 <div class="p-6 flex-1 flex flex-col justify-between">
                     <div>
-                        <h3 class="text-lg font-bold text-stone-900 mb-2">{{ product.title }}</h3>
+                        <h4 class="text-lg font-bold text-stone-900 mb-2">{{ product.title }}</h4>
                         <p class="text-stone-600 text-xs leading-relaxed mb-4">{{ product.description }}</p>
                     </div>
                     <div class="flex items-center justify-between pt-4 border-t border-stone-100">
                         <span class="text-emerald-800 font-bold text-lg">{{ "{:,}".format(product.price) }} <span class="text-xs font-medium text-stone-500">تومان</span></span>
-                        <button class="bg-emerald-800 hover:bg-emerald-950 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-sm">
+                        <button onclick="addToCart('{{ product.title }}', {{ product.price }})" class="bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-sm">
                             افزودن به سبد
                         </button>
                     </div>
@@ -56,5 +66,58 @@
         </div>
     </main>
 
+    <div id="cart-modal" class="modal">
+        <div class="bg-white p-6 rounded-2xl max-w-md w-full mx-4 shadow-xl">
+            <h3 class="text-lg font-bold mb-4">سبد خرید شما</h3>
+            <div id="cart-items" class="space-y-3 max-h-60 overflow-y-auto mb-4 text-sm"></div>
+            <div class="border-t pt-4 flex justify-between font-bold text-emerald-800 mb-6">
+                <span>جمع کل:</span>
+                <span id="cart-total">0 تومان</span>
+            </div>
+            <div class="flex gap-3 justify-end">
+                <button onclick="closeModal('cart-modal')" class="bg-stone-100 px-4 py-2 rounded-xl font-medium text-sm">بستن</button>
+                <button onclick="alert('فروشگاه در حال حاضر به درگاه بانکی متصل نیست.')" class="bg-emerald-800 text-white px-4 py-2 rounded-xl font-bold text-sm">ثبت سفارش</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-modal" class="modal">
+        <div class="bg-white p-6 rounded-2xl max-w-md w-full mx-4 shadow-xl">
+            <h3 class="text-lg font-bold mb-4">افزودن کالا به فروشگاه گیاهی</h3>
+            <form action="/add-product" method="POST" class="space-y-4">
+                <input type="text" name="title" placeholder="نام محصول گیاهی" required class="w-full border p-3 rounded-xl bg-stone-50 text-sm outline-none focus:border-emerald-700">
+                <input type="text" name="benefit" placeholder="خواص اصلی (مثال: آرامش‌بخش)" required class="w-full border p-3 rounded-xl bg-stone-50 text-sm outline-none focus:border-emerald-700">
+                <input type="number" name="price" placeholder="قیمت به تومان" required class="w-full border p-3 rounded-xl bg-stone-50 text-sm outline-none focus:border-emerald-700">
+                <input type="text" name="image_url" placeholder="آدرس لینک تصویر محصول (URL)" required class="w-full border p-3 rounded-xl bg-stone-50 text-sm outline-none focus:border-emerald-700">
+                <textarea name="description" placeholder="توضیحات و فواید محصول" rows="3" required class="w-full border p-3 rounded-xl bg-stone-50 text-sm outline-none focus:border-emerald-700"></textarea>
+                <div class="flex gap-3 justify-end pt-2">
+                    <button type="button" onclick="closeModal('admin-modal')" class="bg-stone-100 px-4 py-2 rounded-xl font-medium text-sm">لغو</button>
+                    <button type="submit" class="bg-emerald-800 text-white px-5 py-2 rounded-xl font-bold text-sm">انتشار در فروشگاه</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        
+        function addToCart(title, price) {
+            cart.push({title, price});
+            updateCartUI();
+        }
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const container = document.getElementById('cart-items');
+            container.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price;
+                container.innerHTML += `<div class="flex justify-between items-center border-b pb-2"><span>${item.title}</span><span class="font-bold">${item.price.toLocaleString()} تومان</span></div>`;
+            });
+            document.getElementById('cart-total').innerText = total.toLocaleString() + ' تومان';
+        }
+    </script>
 </body>
 </html>
