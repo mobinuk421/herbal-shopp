@@ -22,8 +22,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # symlink برای chromedriver
-RUN ln -sf /usr/bin/chromium /usr/bin/google-chrome \
- && ln -sf /usr/bin/chromedriver /usr/bin/chromedriver
+RUN ln -sf /usr/bin/chromium /usr/bin/google-chrome
 
 WORKDIR /app
 COPY requirements.txt .
